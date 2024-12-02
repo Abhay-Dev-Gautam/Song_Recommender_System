@@ -30,23 +30,20 @@ def recommend(song, sp):
         recommended_music_names.append(music.iloc[i[0]].song)
     return recommended_music_names, recommended_music_posters
 
-# Streamlit App
+
 st.header('Music Recommender System')
 
-# Spotify API credentials input
+
 st.subheader("Enter your Spotify API credentials")
 client_id = st.text_input("Spotify Client ID", type="password")
 client_secret = st.text_input("Spotify Client Secret", type="password")
 
 if client_id and client_secret:
-    # Initialize Spotify client
     sp = initialize_spotify_client(client_id, client_secret)
+    
+    music = pickle.load(open(r"df.pkl", 'rb'))
+    similarity = pickle.load(open(r"similarity.pkl", 'rb'))
 
-    # Load data
-    music = pickle.load(open(r"C:\Users\Abhay\Documents\Project\df.pkl", 'rb'))
-    similarity = pickle.load(open(r"C:\Users\Abhay\Documents\Project\similarity.pkl", 'rb'))
-
-    # Song recommendation section
     music_list = music['song'].values
     selected_song = st.selectbox("Type or select a song from the dropdown", music_list)
 
